@@ -19,5 +19,8 @@ Une fenêtre d'authentification est apparue me demandant un nom d'utilisateur et
 
 En analysant le problème, je réalise que la difficulté vient probablement du fait que **j'ai initialement cloné le dépôt avec une URL HTTPS plutôt qu'SSH**. Sur la page GitHub, l'URL HTTPS est affichée par défaut - il faut activement sélectionner l'onglet "SSH" pour obtenir l'URL correcte. 
 
-
-
+## 12/10 Exercices
+### Exercice 1
+Au début, j’ai essayé de téléverser un fichier sur GitHub depuis un autre dossier, mais ça ne marchait pas bien ; après l’avoir déplacé dans mon dépôt local, tout est devenu plus simple.
+### Exercice 2
+2.a - Penser à vérifier les chemins des fichiers .ann
