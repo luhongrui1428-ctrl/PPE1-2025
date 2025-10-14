@@ -23,4 +23,15 @@ En analysant le problème, je réalise que la difficulté vient probablement du 
 ### Exercice 1
 Au début, j’ai essayé de téléverser un fichier sur GitHub depuis un autre dossier, mais ça ne marchait pas bien ; après l’avoir déplacé dans mon dépôt local, tout est devenu plus simple.
 ### Exercice 2
-2.a - Penser à vérifier les chemins des fichiers .ann
+2.a - Penser à vérifier les chemins des fichiers .ann\
+2.b - Au début, grep ../../Exercice1/ann/$ANNEE/$ANNEE_$MOIS*.ann ne trouvait pas les fichiers. J’ai corrige les chemins des fichiers corrigés avec ${ANNEE}_$MOIS*.ann pour correspondre au nom réel des fichiers. Ajout des accolades ${ANNEE} pour éviter toute ambiguïté lors de la concaténation avec _. \
+En plus, j’ai mis "..." \ | cut ... et ça faisait une erreur unexpected EOF. J’ai compris qu’il ne faut pas mettre de backslash après les guillemets.
+
+**Revision**：
+- grep : recherche des motifs dans l’entrée ou dans des fichiers (-h supprime le nom du fichier dans la sortie, -w recherche le mot exact)
+- sort : trie les lignes (-n numérique, -r inverse l’ordre pour du plus grand au plus petit)
+- uniq : supprime les lignes répétées (-c compte le nombre d’occurrences consécutives)
+- echo : affiche un texte, utile pour formater les résultats
+- cut : sélectionne des colonnes d’un fichier tabulaire (-f pour choisir le(s) champ(s), séparateur par défaut \t)
+- tail : garde seulement les dernières lignes d’un flux ou fichier (-n pour le nombre de lignes)
+- head : garde seulement les premières lignes d’un flux ou fichier (-n pour le nombre de lignes)
