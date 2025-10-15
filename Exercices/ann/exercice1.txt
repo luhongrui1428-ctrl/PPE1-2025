@@ -1,0 +1,6 @@
+Nombre de Locations en 2016:
+3144
+Nombre de Locations en 2017:
+2466
+Nombre de Locations en 2018:
+3110
