@@ -96,24 +96,27 @@ Avec des doubles crochets"[[]]", il est possible d’utiliser des expressions r�
 ### 3.Les Boucles for et while
 
 **For**
+```bash
 N=0
 for ELEMENTin a b c d e
 do
    N=$(expr $N+1)
    echo "le $N ieme element est $Element"
 done
-
+```
 expr: compter - différents types de calculs
 
 **While**
+```bash
 while [ condition ];
 do
 echo " je continue à boucler " ;
 done
-
+```
 attention aux boucles infinies ! (**CTRL-C** pour arrêter brutalement le programme).
 
 **EXERCICE**
+```bash
 #!/usr/bin/bash
 
 #Vérifier le nombre d'arguments
@@ -145,7 +148,7 @@ done < "$FICHIER_URLS"  # Lire depuis le fichier spécifié
 
 #Afficher les résultats finaux
 echo "$OK URLs et $NOK lignes douteuses"
-
+```
 ## 20/10 Points dans les exercices
 Il faut noter ces points importants en shell :
 - Les espaces sont obligatoires autour des crochets `[` et `]` dans les conditions ;
