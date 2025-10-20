@@ -35,3 +35,121 @@ En plus, j’ai mis "..." \ | cut ... et ça faisait une erreur unexpected EOF. 
 - cut : sélectionne des colonnes d’un fichier tabulaire (-f pour choisir le(s) champ(s), séparateur par défaut \t)
 - tail : garde seulement les dernières lignes d’un flux ou fichier (-n pour le nombre de lignes)
 - head : garde seulement les premières lignes d’un flux ou fichier (-n pour le nombre de lignes)
+
+## 15/10
+### 1. Revision - git
+**CONFIGURATION**\
+git config --global user.name "Votre Nom" → Définir votre nom\
+git config --global user.email "votre@email.com" → Définir votre email\
+**DÉMARRAGE**\
+git init → Initialiser un nouveau dépôt\
+git clone <url> → Cloner un dépôt distant\
+**TRAVAIL QUOTIDIEN**\
+git status → Voir les fichiers modifiés\
+git add <fichier> → Ajouter un fichier spécifique\
+git add . → Ajouter tous les fichiers\
+git commit -m "Message" → Sauvegarder avec message\
+git restore <fichier> → Annuler modifications\
+**BRANCHES**\
+git branch → Lister les branches\
+git checkout <branche> → Changer de branche\
+git merge <branche> → Fusionner une branche\
+**SYNCHRONISATION**\
+git fetch → Télécharger les changements sans fusionner (plus stable que "git pull" et ne fusionne pas le fichier)\
+git pull → Récupérer et fusionner les modifications\
+git push → Envoyer les commits\
+git remote -v → Voir les dépôts distants\
+**ANNULATION**\
+git rm <FILE...> → Retirer du suivi (remove) un fichier\
+**UTILITAIRES**\
+git log → Voir l'historique\
+git diff → Voir les différences\
+git tag <nom> → Créer un tag\
+
+depot local comme une boite, add - ajouter qch. dans ce depot, commit - fermer la boite avec le note de modification, push - envoyer le depot local au depot en ligne - pull - obtenir le depot en ligne.\
+
+### 2.Condition if
+if [ condition ]; then
+echo " la condition est valide "
+else
+echo " la condition n ’ est pas valide "
+fi
+
+Sur les chemins
+-f fichier vrai si le fichier existe
+-s fichier vrai si le fichier existe et n’est pas vide
+
+Sur des chaînes de caractères
+-n chaine vrai si la chaîne n’est pas vide
+-z vrai si la chaîne est vide (ex: argument non fourni)
+
+Sur les entiers
+a -eq b equal(=)
+a -ne b not equal(!=)
+a -lt b less than(<)
+a -gt b greater than(>)
+a -le b less than or equal(<=)
+a -ge b greater than or equal(>=)
+
+Avec des doubles crochets"[[]]", il est possible d’utiliser des expressions régulières pour tester des chaînes.(equal: =~)
+
+### 3.Les Boucles for et while
+
+**For**
+N=0
+for ELEMENTin a b c d e
+do
+   N=$(expr $N+1)
+   echo "le $N ieme element est $Element"
+done
+
+expr: compter - différents types de calculs
+
+**While**
+while [ condition ];
+do
+echo " je continue à boucler " ;
+done
+
+attention aux boucles infinies ! (**CTRL-C** pour arrêter brutalement le programme).
+
+**EXERCICE**
+#!/usr/bin/bash
+
+#Vérifier le nombre d'arguments
+if [ $# -ne 1 ]  # Si le nombre d'arguments n'est pas égal à 1
+then
+  echo "Ce programme demande un argument"
+  exit
+fi
+
+FICHIER_URLS=$1  # Définir FICHIER_URLS comme le premier argument
+OK=0             # Initialiser OK à 0
+NOK=0            # Initialiser NOK à 0
+
+#Lire chaque ligne du fichier
+while read -r LINE
+do
+  echo "La ligne: $LINE"
+
+  # Vérifier si la ligne ressemble à une URL valide
+  if [[ $LINE =~ ^https?:// ]] # Si la ligne correspond à "https?://"
+  then
+    echo "Ressemble à une URL valide"
+    OK=$(expr $OK + 1)  # Ajouter 1 à OK
+  else #sinon
+    echo "Ne ressemble pas à une URL valide"
+    NOK=$(expr $NOK + 1)  # Ajouter 1 à NOK
+  fi
+done < "$FICHIER_URLS"  # Lire depuis le fichier spécifié
+
+#Afficher les résultats finaux
+echo "$OK URLs et $NOK lignes douteuses"
+
+## 20/10 Points dans les exercices
+Il faut noter ces points importants en shell :
+- Les espaces sont obligatoires autour des crochets `[` et `]` dans les conditions ;
+- `&&` = ET (AND) - toutes les conditions doivent être vraies ;
+- `||` = OU (OR) - au moins une condition doit être vraie;
+- Pas d'espaces autour du `=` dans l'assignation des variables.(ex. datadir="ann")
+
