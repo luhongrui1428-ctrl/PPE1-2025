@@ -207,23 +207,19 @@ attention aux boucles infinies ! (**CTRL-C** pour arrêter brutalement le progra
 **EXERCICE**
 ```bash
 #!/usr/bin/bash
-
 #Vérifier le nombre d'arguments
 if [ $# -ne 1 ]  # Si le nombre d'arguments n'est pas égal à 1
 then
   echo "Ce programme demande un argument"
   exit
 fi
-
 FICHIER_URLS=$1  # Définir FICHIER_URLS comme le premier argument
 OK=0             # Initialiser OK à 0
 NOK=0            # Initialiser NOK à 0
-
 #Lire chaque ligne du fichier
 while read -r LINE # lire qch standard, sinon faux
 do
   echo "La ligne: $LINE"
-
   # Vérifier si la ligne ressemble à une URL valide
   if [[ $LINE =~ ^https?:// ]] # Si la ligne correspond à "https?://"
   then
@@ -234,7 +230,6 @@ do
     NOK=$(expr $NOK + 1)  # Ajouter 1 à NOK
   fi
 done < "$FICHIER_URLS"  # Lire depuis le fichier spécifié, si on met le $FICHIER_URLS au debut, le fichier serait rouvert à chaque itération et la lecture recommencerait au début, ce qui couvrirait les résultats.
-
 #Afficher les résultats finaux
 echo "$OK URLs et $NOK lignes douteuses"
 ```
@@ -307,7 +302,6 @@ HTTP/2 200 #Status
 date: Wed, 22 Oct 2025 09:29:49 GMT
 content-type: text/html #Content type
 last-modified: Thu, 02 Jun 2016 06:01:08 GMT
-...
 ```
 note: recherche dans `man`: "/" +le contenus qu'on veut
 
@@ -367,37 +361,3 @@ On l’utilise pour **masquer les sorties inutiles**, par exemple avec `curl` :
 ```bash
 curl -s -o /dev/null -w "%{http_code}" https://example.com
 ```
-
-### Arborescence
-.
-├── Exercices
-│   ├── ann
-│   │   ├── 2016
-│   │   ├── 2017
-│   │   ├── 2018
-│   │   ├── exercice1.sh
-│   │   └── exercice1.txt
-│   ├── compte_lieux.sh
-│   ├── compte_par_type_par_an.sh
-│   ├── compte_par_type.sh
-│   ├── comptes.sh
-│   ├── docs
-│   │   └── EnergieEolienne.docx
-│   ├── img
-│   │   ├── Paris
-│   │   └── Tokyo
-│   └── txt
-│       ├── 2016
-│       ├── 2017
-│       └── 2018
-├── journal.md
-├── miniprojet
-│   ├── programmes
-│   │   └── miniprojet.sh
-│   ├── tableaux
-│   │   └── tableau-fr.tsv
-│   └── urls
-│       └── fr.txt
-└── README.md
-
-18 directories, 12 files
