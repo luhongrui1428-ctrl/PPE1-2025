@@ -266,12 +266,13 @@ HTTP est un protocole cree pour communiquer sur le WWW.
 | 5xx | Erreur du serveur |
 
 ### 3.Lynx
-un navigateur web en terminal
-installation: sudo apt install lynx
-Demonstration: lynx https://url
-`·-dump` : afficher le contenu textuel
-`-nolist` : sans la liste des liens
-Si on n'utlise pas l'option -nolist,
+un navigateur web en terminal  
+installation: sudo apt install lynx  
+Demonstration: lynx https://url  
+`-dump` : afficher le contenu textuel  
+`-nolist` : sans la liste des liens  
+
+Si on n'utlise pas l'option `-nolist`,  
 “lynx -dump  https://plurital.org | grep -v -P '\d+\. (http|mailto)'”
    - `grep` filtre le texte avec des expressions régulières
    - `-v` inverse la sélection (affiche les lignes qui NE correspondent PAS)
@@ -282,13 +283,13 @@ Si on n'utlise pas l'option -nolist,
      * `(http|mailto)` : soit "http" soit "mailto"
 
 ### 3.wget et cURL
-wget : ecrit dans un fichier
-cURL : ecrit dans le terminal
-installation: sudo apt install curl
-lancer la commande: curl <url>
-`-i` : include headers
-`-L` : follow redirects
-`-o <fichier>` : output file
+wget : ecrit dans un fichier  
+cURL : ecrit dans le terminal  
+installation: sudo apt install curl  
+lancer la commande: curl <url>  
+`-i` : include headers  
+`-L` : follow redirects  
+`-o <fichier>` : output file  
 `-I` : show headers only
 
 ```bash
@@ -296,9 +297,9 @@ curl https://www.github.com  # pas de résultat
 curl -i https://www.github.com  # affiche le code 301 (redirection)
 curl -L https://www.github.com  # suit la redirection
 ```
-Les lignes les plus importantes à retenir sont:
-Status HTTP; Content-Type; Location(s'il y en a)
-ex.
+Les lignes les plus importantes à retenir sont:  
+**Status HTTP**; **Content-Type**; **Location(s'il y en a)**  
+
 ```bash
 curl -i https://www.perdu.com
 HTTP/2 200 #Status
@@ -310,18 +311,18 @@ note: recherche dans `man`: "/" +le contenus qu'on veut
 
 ## 27/10 Exercices
 ### Exercice1
-1) Quand on utilise `cat` avant while dans une commande comme `cat fichier | while read ...`, la boucle while s’exécute dans un sous-processus.
-Les variables modifiées à l’intérieur (par exemple un compteur N) sont perdues à la fin de la boucle. Par contre, avec `done < "urls/fr.txt"`, le fichier est lu par le processus principal(boucle WHILE), donc les variables gardent leurs valeurs après la boucle.
+1) Quand on utilise `cat` avant while dans une commande comme `cat fichier | while read ...`, la boucle while s’exécute dans un sous-processus.Les variables modifiées à l’intérieur (par exemple un compteur N) sont perdues à la fin de la boucle.
+Par contre, avec `done < "urls/fr.txt"`, le fichier est lu par le processus principal(boucle WHILE), donc les variables gardent leurs valeurs après la boucle.
 2) Ajouter un argument et utiliser la condition `if` pour le vérifier.
 
-**Problemes et solutions**:
+**Problemes et solutions**:  
 1.
 ```bash
 ./programmes/miniprojet.sh: line 13: expr0+1: command not found
 ```
 **La commande `expr` exige qu’il y ait des espaces autour des opérations.**
 
-2. Comment séparer le résultat avec une tabulation :
+2. Comment séparer le résultat avec une tabulation :\
 `man echo` :
 ```bash
 -e enable interpretation of backslash escapes
@@ -337,16 +338,16 @@ If -e is in effect, the following sequences are recognized:
 ```
 ### Exercice2
 **Problemes et solutions**:
-1. En essayant d’extraire le code HTTP avec `curl -s -I $line | grep -`, la commande a échoué parce que je ne savais pas quel motif grep utiliser pour extraire le bon élément.
-En consultant `man curl`, j’ai découvert l’option `-w "%{http_code}"` qui permet d’afficher directement le code HTTP.
-J’ai ensuite testé `curl -s -w "%{http_code}"`, mais cela affichait encore le contenu HTML, car `-s` ne supprime que les messages d’erreur, pas la sortie standard.
-Après avoir demandé à GPT, j’ai compris que l’option `-o /dev/null` permet de rediriger la sortie standard vers le “fichier noir”, donc ne garde que le code HTTP.
+1. En essayant d’extraire le code HTTP avec `curl -s -I $line | grep -`, la commande a échoué parce que je ne savais pas quel motif grep utiliser pour extraire le bon élément.\
+En consultant `man curl`, j’ai découvert l’option `-w "%{http_code}"` qui permet d’afficher directement le code HTTP.\
+J’ai ensuite testé `curl -s -w "%{http_code}"`, mais cela affichait encore le contenu HTML, car `-s` ne supprime que les messages d’erreur, pas la sortie standard.\
+Après avoir demandé à GPT, j’ai compris que l’option `-o /dev/null` permet de rediriger la sortie standard vers le “fichier noir”, donc ne garde que le code HTTP.\
 Avec `curl -s -o /dev/null -w "%{http_code}"`·, j’ai enfin obtenu le résultat correct.
 
-2. une autre erreur :
-`/programmes/miniprojet.sh: line 20: [: -ne: unary operator expected.`
-J’ai compris que cela se presente quand la variable comparée (par exemple $code) est vide.
-Il faut d’abord vérifier qu’elle n’est pas vide avant de faire la comparaison.
+2. une autre erreur :\
+`/programmes/miniprojet.sh: line 20: [: -ne: unary operator expected.`\
+J’ai compris que cela se presente quand la variable comparée (par exemple $code) est vide.\
+Il faut d’abord vérifier qu’elle n’est pas vide (-z) avant de faire la comparaison.
 
 
 ### `/dev/null`
