@@ -121,31 +121,31 @@ J’ai compris qu’**il ne faut pas mettre de backslash `\` juste après les gu
 ### 1. Revision - git
 - CONFIGURATION\
 git config --global user.name "Votre Nom" → Définir votre nom\
-git config --global user.email "votre@email.com" → Définir votre email\
+git config --global user.email "votre@email.com" → Définir votre email
 - DÉMARRAGE\
 `git init` → Initialiser un nouveau dépôt\
-`git clone <url>` → Cloner un dépôt distant\
+`git clone <url>` → Cloner un dépôt distant
 - TRAVAIL QUOTIDIEN\
 `git status` → Voir les fichiers modifiés\
 `git add <fichier>` → Ajouter un fichier spécifique\
 `git add .` → Ajouter tous les fichiers\
 `git commit -m "Message"` → Sauvegarder avec message\
-`git restore <fichier>` → Annuler modifications\
+`git restore <fichier>` → Annuler modifications
 - BRANCHES\
 `git branch` → Lister les branches\
 `git checkout <branche>` → Changer de branche\
-`git merge <branche>` → Fusionner une branche\
+`git merge <branche>` → Fusionner une branche
 - SYNCHRONISATION\
 `git fetch` → Télécharger les changements sans fusionner (plus stable que "git pull" et ne fusionne pas le fichier)\
 `git pull` → Récupérer et fusionner les modifications\
 `git push` → Envoyer les commits\
-`git remote -v` → Voir les dépôts distants\
+`git remote -v` → Voir les dépôts distants
 - ANNULATION\
-`git rm <FILE...>` → Retirer du suivi (remove) un fichier\
+`git rm <FILE...>` → Retirer du suivi (remove) un fichier
 - UTILITAIRES\
 `git log` → Voir l'historique\
 `git diff` → Voir les différences\
-`git tag <nom>` → Créer un tag\
+`git tag <nom>` → Créer un tag
 
 Un dépôt local est comme une boîte :\
 `add` → mettre quelque chose dans la boîte\
@@ -248,7 +248,10 @@ echo "$OK URLs et $NOK lignes douteuses"
 
 ## 22/10 Cours5
 ### 1.HTML
-Le langage HTML utilise des « balises » pour annoter du texte, des images et d'autres contenus afin de les afficher dans un navigateur web. Le balisage HTML comprend des « éléments » spéciaux tels que <head>, <title>, <body>, <header>, <footer>, <article>, <section>, <p>, <div>, <span>, <img>, <aside>, <audio>, <canvas>, <datalist>, <details>, <embed>, <nav>, <search>, <output>, <progress>, <video>, <ul>, <ol>, <li> et bien d'autres.
+Le langage HTML utilise des « balises » pour annoter du texte, des images et d'autres contenus afin de les afficher dans un navigateur web.
+Le balisage HTML comprend des éléments spéciaux tels que
+`<head>`, `<title>`, `<body>`, `<header>`, `<footer>`, `<article>`, `<section>`, `<p>`, `<div>`, `<span>`, `<img>`, `<aside>`, `<audio>`, `<canvas>`, `<datalist>`, `<details>`, `<embed>`, `<nav>`, `<search>`, `<output>`, `<progress>`, `<video>`, `<ul>`, `<ol>`, `<li>` et bien d'autres.
+
 Les balises ne sont **pas sensibles à la casse** (majuscules/minuscules possibles).
 
 ### 2.HTTP
