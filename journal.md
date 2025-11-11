@@ -365,3 +365,69 @@ On l’utilise pour **masquer les sorties inutiles**, par exemple avec `curl` :
 ```bash
 curl -s -o /dev/null -w "%{http_code}" https://example.com
 ```
+
+## 05/11 Cours 6
+### 1.Corriger les exercices
+1. `cat` affiche simplement le contenu du fichier, sans interpréter les lignes ni les mots.
+Ensuite, c’est la commande `read` qui lit réellement ligne par ligne, en s’arrêtant au caractère de fin de ligne.
+De son côté, la boucle `for` ne lit pas le fichier : elle parcourt les éléments d’une chaîne en les séparant selon IFS (par défaut, les espaces, tabulations et retours à la ligne).
+
+2. Espaces dans les noms de fichiers (Bash)
+En Bash, pour utiliser un nom avec espace, il faut utiliser `\`.
+Avec \ :
+mkdir un\ documents
+
+3. curl -I
+```curl -I -L -s -w "%{content_type}\n%{http_code}\n" -o /dev/null https://fr.wikipedia.org```
+
+- -I : seulement l’en-tête HTTP
+- -L : suivre les redirections
+- -s : silencieux
+- -w : formatage de sortie
+- -o /dev/null : ignorer le corps
+
+4. extraire l'encodage
+```echo "text/html; charset=UTF-8" | grep -E -o "charset=.*" | cut -d= -f2```
+Résultat : UTF-8.
+Explication :
+- grep -E -o : expression régulière + sortie du match
+- cut -d= -f2 : découper sur = et prendre la deuxième partie.
+
+5. code HTTP 429
+En testant, j’ai fait trop de curl d’affilée sur Wikipédia, et alors il presente le résultat : HTTP 429 (Too Many Requests).
+C’est un rate-limit : le serveur bloque quand on envoie trop de requêtes trop vite.
+le code HTTP et le type de con a la fin
+
+*Il vaut mieux créer deux variables,`$FICHIER_ENTREE` et `$FICHIER_SORTIE`,pour que l’utilisateur indique lui-même les chemins en lançant le programme.
+Comme ça, le script reste réutilisable et propre, sans modifier le code à chaque fois.
+
+### 2.HTML-balise
+1. syntaxe
+
+<balise/> autofermantes ou vides
+
+les atribus d'une balise sont des couples cle/valeurs sur la balise ouvrantes et autofermantes.
+<NP fct="SUJ">
+
+head: l'entete du fichier
+contient bcp d'information, le plus interessant: un metadonee:charset
+
+Tableau en HTML:
+table: racine
+tr: table raw(laligne)
+th: table jeader (la premiere ligne)
+td: table data(toutes les lignes pas l'entete)
+
+<table>
+  <tr><th>livre</th><th>taille</th></tr>
+  <tr>
+    <td>Du cote chez SWAN</td><td>1.0Mo</td>
+  </tr>
+</table>
+
+devoir: modifier le script-sortir un tableau en HTML
+
+## 10/11 Exercices
+1. Corriger mon script
+Pour que le code HTTP et l’encodage soient corrects : les variables doivent être entourées de guillemets (echo "$code_et_encodage")， sinon les retours à la ligne deviendra l'espace.
+2.
