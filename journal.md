@@ -431,3 +431,25 @@ devoir: modifier le script-sortir un tableau en HTML
 1. Corriger mon script
 Pour que le code HTTP et l’encodage soient corrects : les variables doivent être entourées de guillemets (echo "$code_et_encodage")， sinon les retours à la ligne deviendra l'espace.
 2.
+把html代码加进去
+
+## Cours7
+Balise <a>
+<a href="lianjie">cliquer ici </a>
+插入链接
+Balise <p> paragraphe
+<h> titre
+<b> gras
+<i> italique
+liste <ol> <ul> <li>
+classe
+
+CSS
+modifier les elements de style d'une page HTML
+
+
+3 facon d'inserer CSS
+balise
+entete d;un fichier HTML
+un fichier a part（.css一种文档格式，和html文件放在一个文档里，并在html里使用href引用）
+
