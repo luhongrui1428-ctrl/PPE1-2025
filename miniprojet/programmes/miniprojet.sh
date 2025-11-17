@@ -10,21 +10,37 @@ if [ $# -ne 1 ]; then
 
 Fichier_URLS=$1
 
-#Afficher le debut du fichier HTML
+#Afficher le debut du fichier HTML.
+#Il faut mettre \ qui permet d’afficher des guillemets dans le code HTML tout en conservant une chaîne de caractères valide pour Bash.
+
 echo -e "
 <head>
-	<meta charset=\"UTF-8\">
-	<title>Résultats du mini-projet</title>
+  <meta charset=\"UTF-8\">
+  <title>Résultats du mini-projet</title>
+  <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/versions/bulma-no-dark-mode.min.css\">
+  <link rel=\"stylesheet\" href=\"../cheatsheet.css\">
 </head>
+
 <body>
-<table>
-	<tr>
-		<th>numero</th>
-		<th>URL</th>
-		<th>code_http</th>
-		<th>encodage</th>
-		<th>nombre de mot</th>
-	</tr>
+<section class=\"hero is-primary\">
+  <div class=\"hero-body\">
+    <div class=\"container\">
+      <h1 class=\"title\">Tableau du mini-projet</h1>
+    </div>
+  </div>
+</section>
+
+<section class=\"section\">
+<div class=\"container\">
+<table class=\"table is-striped is-fullwidth\">
+
+<tr>
+  <th>Numero</th>
+  <th>URL</th>
+  <th>Code_http</th>
+  <th>Encodage</th>
+  <th>Nombre de mots</th>
+</tr>
 "
 
 # Vérifier la validité du fichier des URLS
