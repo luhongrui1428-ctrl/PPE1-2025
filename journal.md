@@ -430,26 +430,190 @@ devoir: modifier le script-sortir un tableau en HTML
 ## 10/11 Exercices
 1. Corriger mon script
 Pour que le code HTTP et l’encodage soient corrects : les variables doivent être entourées de guillemets (echo "$code_et_encodage")， sinon les retours à la ligne deviendra l'espace.
-2.
-把html代码加进去
+2. Creer le tableau en html par script
+```
+echo -e "
+<html>
+<head>
+<body>
+<table>
+	<tr>
+		<th>numero</th>
+		<th>URL</th>
+		<th>code_http</th>
+		<th>encodage</th>
+		<th>nombre de mot</th>
+	</tr>
+"
+
+
+#il faut mettre en dehor de la boucle
+echo -e "
+</table>
+</body>
+</head>
+</html>
+"
+```
 
 ## Cours7
-Balise <a>
-<a href="lianjie">cliquer ici </a>
-插入链接
-Balise <p> paragraphe
-<h> titre
-<b> gras
-<i> italique
-liste <ol> <ul> <li>
-classe
+I. les balises
+`Balise <a>` : Insérer un lien
+```<a href="lien">cliquer ici</a> ```
+`Balise <p>` : Paragraphe
+`Balises <h1> à <h6>` : Titres
+`<b>` gras
+`<i>` italique
 
-CSS
-modifier les elements de style d'une page HTML
+Listes
+`<ol>` liste ordonnée
+`<ul>` liste non ordonnée
+`<li>` élément
 
+Class
+Ajouter une classe à un élément HTML
+```<p class="nom">texte</p>`
 
-3 facon d'inserer CSS
-balise
-entete d;un fichier HTML
-un fichier a part（.css一种文档格式，和html文件放在一个文档里，并在html里使用href引用）
+II. CSS
+Modifier le style d'une page HTML
+
+Trois façons d’insérer du CSS
+1. Dans une balise
+```<p style="color:red;">texte</p>```
+2. Dans l’entête d’un fichier HTML
+```<style> p { color:red; } </style>```
+3. Dans un fichier séparé .css
+```<link rel="stylesheet" href="style.css">```
+
+## 17/11 Exercices
+1. Comparer mon script et la version correct
+- Difference entre **exit** et **exit1**：
+exit (ou exit 0) : le script s’est terminé correctement.
+exit 1 (!=0) : il y a une erreur.
+- Difference entre **/dev/null** et **./.data.tmp**
+a) Si curl utilise **/dev/null**(un trou noir), le code HTML téléchargé n’est pas conservé.
+Lynx doit alors refaire une requête HTTP pour récupérer la page.
+Deux requêtes successives peuvent renvoyer des contenus différents (redirection, langue, cookies, contenu dynamique…).
+➡️ Résultat : le nombre de mots peut changer.
+b) Si on utilise **.data.tmp**, le HTML sera téléchargé par curl temporairement.
+Lynx lit directement ce fichier avec -stdin, sans refaire de requête HTTP.
+Le contenu analysé est strictement le même que celui obtenu par curl.
+- Difference entre **charset = .** et **charset=\S+**
+charset=.* : Capture tout ce qui suit charset= jusqu’à la fin de la ligne.
+charset=\S+ : Capture la suite de caractères non-blancs, seulement la valeur du charset (ex. UTF-8).
+2. CSS- Finir le miniprojet
+Je n’ai pas utilisé le fichier CSS fourni dans le dépôt; à la place, j’ai testé un petit fichier CSS trouvé en ligne, mais son impact est resté très limité.
+Dans la pratique, j'ai utiliser principalement les configurations de base de Bulma.
+Les classes Bulma utilisées :
+- Structure/Layout : `hero`, `hero-body`, `section`, `container`, `box`
+- Typographie : `title`, `subtitle`, `title is-4`
+- Couleurs : `is-primary` #main color
+- Boutons : `button`, `is-link`, `is-medium`
+- Tableaux (dans la page générée par Bash) : `table`, `is-striped`, `is-fullwidth`
+
+Note:
+- Problème : caractères à échapper dans Bash
+En générant du HTML depuis Bash, certains caractères doivent être échappés pour éviter des erreurs :
+`\` doit devenir `\\`;`$` peut nécessiter `\$` si utilisé dans un echo
+
+## Cours 8
+1.REGEX
+Cette semaine, j’ai révisé plusieurs notions essentielles du cours REGEX :
+- Recherche d’URL
+Trop large : capture aussi le mot suivant.
+```
+https?:\/\/.*\b
+https?:\/\/.+
+```
+https?:\/\/[^ ]+ : elle capturait non seulement l’URL, mais également le premier mot qui la suit.
+
+(https?:\/\/|www\.)[^\s]+[a-zA-Z0-9]\/?:\s correspond à tout caractère d’espacement
+```
+/
+(https?:\/\/|www\.)[^\s]+[a-zA-Z0-9]\/?
+/
+gm
+1st Capturing Group (https?:\/\/|www\.)
+1st Alternative https?:\/\/
+http
+ matches the characters http literally (case sensitive)
+s
+ matches the character s with index 11510 (7316 or 1638) literally (case sensitive)
+? matches the previous token between zero and one times, as many times as possible, giving back as needed (greedy)
+: matches the character : with index 5810 (3A16 or 728) literally (case sensitive)
+\/ matches the character / with index 4710 (2F16 or 578) literally (case sensitive)
+2nd Alternative www\.
+www
+ matches the characters www literally (case sensitive)
+\. matches the character . with index 4610 (2E16 or 568) literally (case sensitive)
+Match a single character not present in the list below [^\s]
++ matches the previous token between one and unlimited times, as many times as possible, giving back as needed (greedy)
+\s matches any whitespace character (equivalent to [\r\n\t\f\v ])
+Match a single character present in the list below [a-zA-Z0-9]
+a-z matches a single character in the range between a (index 97) and z (index 122) (case sensitive)
+A-Z matches a single character in the range between A (index 65) and Z (index 90) (case sensitive)
+0-9 matches a single character in the range between 0 (index 48) and 9 (index 57) (case sensitive)
+\/
+ matches the character / with index 4710 (2F16 or 578) literally (case sensitive)
+? matches the previous token between zero and one times, as many times as possible, giving back as needed (greedy)
+Global pattern flags
+g modifier: global. All matches (don't return after first match)
+m modifier: multi line. Causes ^ and $ to match the begin/end of each line (not only begin/end of string)
+```
+
+Seulement “http…”：```https?:\/\/.*?\b```
+2. Regex-Classes Unicode
+Reconnaître des langues diverses:
+`\p{L}`- correspond à toute lettre Unicode.
+`\p{L}*`- zéro ou plusieurs lettres.
+`\p{L}+`- une séquence de lettres d’une langue quelconque.
+
+Catégories détaillées :
+Lu = uppercase
+Ll = lowercase
+Lt = titlecase
+Lm = modifier letters
+Lo = other letters
+(L = Lu + Ll + Lt + Lm + Lo)
+
+`\p{Han}`- caractères chinois.
+Ces classes permettent de créer des regex multilingues, y compris pour traiter du texte en français, anglais, latin, chinois, etc.
+
+3. `sed`
+`sed` signifie Stream EDitor qui fonctionne dans le terminal.
+C’est un outil en ligne de commande qui permet de :
+lire un texte flux par flux; modifier ce texte automatiquement;
+remplacer, supprimer, insérer, ou transformer des chaînes sans ouvrir un éditeur graphique.
+
+1) Remplacement simple et correct (majuscule)
+```cat pg16066.txt | grep moulins | sed 's/moulins/Moulins/'```
+2) Test avec groupe capturant (exemple volontairement erroné)
+```sed 's/moulins\(...\)/\1 Moulins/'```
+- Résultat incorrect : \(...\) capture exactement trois caractères, ce qui déforme les mots (“Moulinsvent”, “Moulinsfoulon”, etc.).
+
+4. git
+`git fetch` plus stable et safety, récupère uniquement les métadonnées du dépôt distant.
+Conflit classique entre modifications locales et modifications distantes:
+`git stash` permet de sauvegarder temporairement les modifications non commit.
+Enregistre les modifications dans une pile : ```git stash push -m "message"```
+listez : ```git stash list```
+Voir le contenu d’un stash : ```git stash show -p stash@{0}```#0是序号
+Appliquer les modifications sauvegardées：
+- sans supprimer: ```git stash apply stash@{0}```
+- supprimer en meme temps: ```git stash pop stash@{0}```
+
+## 24/11 Exercices
+1. `git checkout` - annule toutes les modifications non commit et remet le dossier dans un depot.
+`git reset` sert à déplacer HEAD vers un commit plus ancien. Il modifie l’historique de la branche.
+Trois modes `git reset`:
+--soft : déplace HEAD mais conserve les fichiers dans l’index.
+--mixed (par défaut) : déplace HEAD et enlève les ajouts, mais garde les modifications dans le dossier.
+--hard : déplace HEAD et supprime toutes les modifications.
+
+```Untracked files:
+    cheatsheet.css
+    tableau-fr.html
+```
+`git stash -u`:-u permet de comprendre les untracked files
+
 
