@@ -528,38 +528,6 @@ https?:\/\/.+
 https?:\/\/[^ ]+ : elle capturait non seulement l’URL, mais également le premier mot qui la suit.
 
 (https?:\/\/|www\.)[^\s]+[a-zA-Z0-9]\/?:\s correspond à tout caractère d’espacement
-```
-/
-(https?:\/\/|www\.)[^\s]+[a-zA-Z0-9]\/?
-/
-gm
-1st Capturing Group (https?:\/\/|www\.)
-1st Alternative https?:\/\/
-http
- matches the characters http literally (case sensitive)
-s
- matches the character s with index 11510 (7316 or 1638) literally (case sensitive)
-? matches the previous token between zero and one times, as many times as possible, giving back as needed (greedy)
-: matches the character : with index 5810 (3A16 or 728) literally (case sensitive)
-\/ matches the character / with index 4710 (2F16 or 578) literally (case sensitive)
-2nd Alternative www\.
-www
- matches the characters www literally (case sensitive)
-\. matches the character . with index 4610 (2E16 or 568) literally (case sensitive)
-Match a single character not present in the list below [^\s]
-+ matches the previous token between one and unlimited times, as many times as possible, giving back as needed (greedy)
-\s matches any whitespace character (equivalent to [\r\n\t\f\v ])
-Match a single character present in the list below [a-zA-Z0-9]
-a-z matches a single character in the range between a (index 97) and z (index 122) (case sensitive)
-A-Z matches a single character in the range between A (index 65) and Z (index 90) (case sensitive)
-0-9 matches a single character in the range between 0 (index 48) and 9 (index 57) (case sensitive)
-\/
- matches the character / with index 4710 (2F16 or 578) literally (case sensitive)
-? matches the previous token between zero and one times, as many times as possible, giving back as needed (greedy)
-Global pattern flags
-g modifier: global. All matches (don't return after first match)
-m modifier: multi line. Causes ^ and $ to match the begin/end of each line (not only begin/end of string)
-```
 
 Seulement “http…”：```https?:\/\/.*?\b```
 2. Regex-Classes Unicode
@@ -615,5 +583,125 @@ Trois modes `git reset`:
     tableau-fr.html
 ```
 `git stash -u`:-u permet de comprendre les untracked files
+
+## Cours 9
+1. Environnement virtuelle
+- Avantages:
+Aucune modification du Python système;
+Dépendances reproductibles pour chaque projet;
+Suppression simple en cas de problème;
+Permet d’éviter les conflits entre projets.
+- Installation:
+pip - installer des libraiies de Python;
+venv- créer un environnment virtuel;
+uv - outil moderne intégrant sa propre version de pip + venv.
+2. Sommaire des commandes
+- Créer un environnement virtuel: uv venv $HOME/venvs/plurital
+```uv venv $HOME/venvs/plurital
+Using CPython 3.12.3 interpreter at: /usr/bin/python3
+Creating virtual environment at: venvs/plurital
+Activate with: source venvs/plurital/bin/activate
+```
+- Vérifier les chemins Python
+whereis python - Montrer toutes les occurrences possibles
+#搜命令的二进制/源代码/手册路径（更广泛）
+```
+luh@lu-21hw:~$ whereis python3 #dans le terminal
+python3: /usr/bin/python3 /usr/lib/python3 /etc/python3 /usr/share/python3 /usr/share/man/man1/python3.1.gz
+
+whereis python3 # dans l'environnement virtuel, il y a un chemin vers l'environnement virtuelle
+python3: /usr/bin/python3 /usr/lib/python3 /etc/python3 /usr/share/python3 /home/luh/venvs/plurital/bin/python3 /usr/share/man/man1/python3.1.gz
+```
+which python3 - Donner le chemin réellement utilisé（实际执行路径）
+```
+which python3 #dans le terminal
+/usr/bin/python3 #seul retour de python systeme 实际路径
+
+which python3  # dans l'environnement virtuel
+/home/luh/venvs/plurital/bin/python3
+```
+- Activer / désactiver un environnement virtuel
+source $HOME/venvs/plurital/bin/activate
+`deactivate` pour quitter uv
+
+- Installation de paquet de **nuages des mots** #词云
+uv pip install wordcloud #installer
+wordcloud_cli --help #vérifier
+
+- Générer un nuage de mots
+Filtrer les stopwords et créer un nuage de mots avec mask #例子：心型
+```wordcloud_cli --text ~/ProjetEncadre1/PPE1-2526/docs/pg16066.txt --imagefile pg16066.png --stopwords stopwords.txt --mask word-cloud-mask.png --scale 3 --background white --contour_width 3 --contour_color black ```
+
+3. Installation des paquets de **tokenisation**
+Les ressources sont dans le dépôt Git du professeur.
+- Vérifier les dépendances nécessaires
+`cat requirements.txt #知道要安装的是什么`
+- Installer
+`uv pip install -r requirements.txt`
+Format d’un repository git dans requirements.txt
+Par exemple:
+git+https://github.com/user/repo.git
+git+https://github.com/user/repo.git@branche #某个分支
+-> pip/uv clone automatiquement le dépôt et installe le paquet.pip。
+- Pratique en cours:
+```cat chinois.txt |python tokenize_chinese.py
+python tokenize_chinese.py chinois.txt > chinois_seg.txt
+
+python tokenize_vietnamese.py vietnamien.txt | tr ' ' '\n' | sort -u
+#tr ' ' '\n' : remplace les espaces par des sauts de ligne
+#sort -u : trie et supprime les doublons（unique）#去重排序
+```
+
+4. **PALS** / iTrameur — Cooccurrents et structuration du texte
+- Consulter le contenu d'un fichier
+```less fr-1.txt```
+- Lancer cooccurrents.py
+```python3 ./cooccurrents.py --target robot fr-*.txt```
+Le script convertit tous les tokens en minuscules par défaut.
+Toutes les occurrences de “robot”, “Robot”, “ROBOT”, etc. seront comptées.
+- Limiter l’affichage aux 10 premiers cooccurrents
+```python3 ./cooccurrents.py --target robot fr-*.txt -N 10```
+- Mode sensible à la casse (distinguer le miniscule et majuscule)
+```python3 ./cooccurrents.py --target robot fr-*.txt -N 10 -s```
+Avec l'option -s (sensitive), “robot” ≠ “Robot” ≠ “ROBOT”.
+Seules les occurrences correspondant exactement à “robot” sont prises en compte.
+- Mode explicitement insensible à la casse
+```python3 ./cooccurrents.py --target robot fr-*.txt -N 10 -s i```
+`-s i` = insensitive.
+Cela force le script à ignorer la casse, même si une autre option était activée.
+- Utiliser un motif régulier (ER)
+```python3 ./cooccurrents.py --target "robot?" fr-*.txt -N 10 -s i --match-mode regex```
+`--match-mode regex` active la recherche par expression régulière.
+par ce commande: "robot?" = correspond à : "robo" et "robot"
+
+## Réunion de groupe - le mot de projet
+Lors de notre première réunion, nous avons d’abord envisagé le mot 'deepfake', mais nous avons estimé que le domaine était restreint et que son équivalent français hypertrucage était peu fréquent, rendant la collecte de corpus difficile. Le mot 'AI' a ensuite été proposé : les recherches préliminaires sur Google Trends montrent un fort intérêt et des associations différentes selon les régions, ce qui semblait offrir une piste intéressante pour comparer les attitudes en français, en anglais et en chinois. Cependant, avec le conseille des profs, AI manquait de polysémie, ce qui limitait la profondeur de l’analyse lexicale.
+
+Lors de la deuxième discussion, le terme chinois 老铁 est présenté, riche culturellement mais difficile à comparer entre langues. À partir de cette idée, nous avons élargi la réflexion au mot “铁”, qui présente des usages métaphoriques variés dans les trois langues : en chinois, il renvoie à des relations solides ou à une certitude (铁哥们, 铁定), en français fer évoque la force (volonté de fer), et en anglais iron possède non seulement des usages métaphoriques (iron will) mais aussi une forme verbale (to iron) permettant des emplois figurés comme to iron out differences. Enfin, nous avons discuté du mot “赛博”/cyber, devenu un néologisme fréquent dans la culture numérique chinoise.
+
+## Cours10
+1. Définition du mot et de l’hypothèse
+Choisir un mot présent dans plusieurs langues.
+Formuler une hypothèse : comment ce mot circule, évolue ou se charge de valeurs dans différents espaces linguistiques.
+2. Constitution du corpus
+- Préparation des URLs
+créer un fichier d’URLs par langue (URLs/lang1.txt).
+- Aspiration des pages (HTML)
+télécharger toutes les pages listées: `curl` et `wget`.
+- Vérification et gestion de l’encodage
+`file -i` detecter l'encodage
+`iconv -f -t` transferer l'encodage
+- Extraction du texte (-dump textuel)
+- Extraction des contextes (concordances)
+repérer le mot cible dans les pages et sortir un contexte propre: `egrep`
+- Tableau HTML récapitulatif
+Exigence minimale (par langue) :
+Numéro, URL, Code HTTP, Encodage détecté, Nb d'occurrences du mot, Lien vers la page HTML, Lien vers le dump textuel, Lien vers les contextes
+Exigence pour tous les points : ajouter bigrammes, robots.txt, mise en couleur des contextes, etc.
+- Analyse textométrique (PALS)
+- Visualisations (nuages de mots)
+
+URLs - wget/curl - file/iconv - lynx (dump) - grep/egrep (contextes) - tableaux HTML - PALS - wordcloud - conclusion.
+
 
 
